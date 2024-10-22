@@ -17,14 +17,16 @@ db.serialize(() => {
 app.get('/users', (req, res) => {
     db.all("SELECT * FROM users", (err, rows) => {
         if (err) {
-            res.status(500).send('Ошибка базы данных');
-        } else {
-            res.json(rows);
+            return res.status(500).send('Ошибка базы данных');
         }
+        res.json(rows);
     });
 });
 
-// Запуск сервера
+// Запуск сервера (Vercel автоматически запустит приложение)
 app.listen(port, () => {
     console.log(`Сервер запущен на http://localhost:${port}`);
 });
+
+// Экспортируем обработчик для Vercel
+module.exports = app;
